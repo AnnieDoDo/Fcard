@@ -211,6 +211,25 @@ module.exports = {
         Email:searchData1,
         }
       })   
+    },
+    newAccount : function(newData1 , newData2){
+        var ifreg = ''
+        return Account.upsert({
+            Uid : uuidv4(),
+            Email : newData1,
+            Password : newData2,
+          }).then(anotherTask => {
+            console.log("success")
+            ifreg = 'success'
+            return ifreg
+          }).catch(error => {
+            console.log("unsuccess")
+            ifreg = 'unseccess'
+            return ifreg
+          })
+        //return Promise.resolve(ifreg)
+        
+
     }
 }
 
@@ -247,11 +266,47 @@ module.exports = {
   }
 */
 
-Account.sync({ force: false }).then(() => {
-    // Now the `users` table in the database corresponds to the model definition
-    return Account.create({
-      Uid: uuidv4(),
-      Email: 'magician19960118@gmail.com',
-      Password : 'dodocute'
-    });
-})
+/*
+        var createOK = 0
+        Account.sync({ force: false })
+        .then(() => {
+            console.log(newData1)
+            console.log(newData2)
+            Account.create({
+              Uid: uuidv4(),
+              Email: newData1,
+              Password : newData2
+            })
+            console.log('create')
+        }).then(() => {
+            createOK = 1
+            console.log(createOK)
+            var acc = Account.findOne({
+                attributes: ['Password'],
+                where:{
+                  Email : newData1,
+                  Password : newData2
+                }
+            })
+            console.log('createOK')
+            console.log(acc)
+        }).catch(() => {
+            console.log(createOK)
+            var acc = Account.findOne({
+                attributes: ['Password'],
+                where:{
+                  Email : newData1,
+                  Password : newData2
+                }
+            })
+            console.log('createFail')
+        })
+
+ Account.sync({ force: false }).then(() => {
+            Account.create({
+              Uid: uuidv4(),
+              Email: newData1,
+              Password : newData2
+            });
+        })
+*/

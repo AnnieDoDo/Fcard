@@ -7,7 +7,7 @@ var RedisStore = require('connect-redis')(session);
 var bodyParser  = require('body-parser');
 var expressAccessToken = require('express-access-token');
 var client = redis.createClient();
-var sql = require('./Fsearch.js');
+var sql = require('./Fsearch');
 var bcrypt = require('bcrypt');
 
 const PORT = 3500;
@@ -67,17 +67,15 @@ app.post('/registerSubmit', (req, res) => {
       var data2=reqObj.password;
       //console.log(data1)
       //console.log(data2)
-      sql.newAccount(data1,data2)
-      /*.then(data => {
-        console.log(data)
-        if(data.length != 0)
+      sql.newAccount(data1 , data2)
+      .then(data => {
+        if(data == 'success')
         {
-            console.log(data)
             res.end('regSubOK') 
         }else{
             res.end('registerFail') 
         }
-      })*/
+      })
     });
 });
 
