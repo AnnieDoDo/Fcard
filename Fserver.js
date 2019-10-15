@@ -79,6 +79,23 @@ app.post('/registerSubmit', (req, res) => {
     });
 });
 
+app.get('/inviteSubmit', (req, res) => {
+  if(!req.session.acc){
+    res.end('inviteFail') 
+  }else{
+    sql.draw(req.session.acc)
+    .then(data => {
+      if(data.length != 0)
+      {
+        console.log(data.Email)
+        res.end('invSubOK')
+      }else{
+          res.end(`inviteFail`) 
+      }
+    })
+  }
+});
+
 
 
 app.listen(PORT, HOST, () => {

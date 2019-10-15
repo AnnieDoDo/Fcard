@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
 const uuidv4 = require('uuid/v4');
 const bcrypt = require('bcrypt');
+const Op = Sequelize.Op;
 
 const sequelize = new Sequelize( {
     dialect: 'sqlite',
-    storage: '/home/annie/Documents/nodepractice/Fcard/sqldev.db'
+    storage: '/home/annie/Documents/Fcard/Fcard/sqldev.db'
   });
 
   sequelize.authenticate()
@@ -17,8 +18,8 @@ const sequelize = new Sequelize( {
 
 const Model = Sequelize.Model;
 
-class Account extends Model {}
-Account.init({
+class AccountData extends Model {}
+AccountData.init({
   // attributes
   Uid: {
     type: Sequelize.STRING,
@@ -32,125 +33,108 @@ Account.init({
   Password: {
     type: Sequelize.STRING,
     allowNull: false,
-  }
-}, {
- 
-  sequelize,
-  modelName: 'account'
-  // options
-});
-
-class PersonalData extends Model {}
-PersonalData.init({
-  // attributes
-  Pid: {
-    type: Sequelize.STRING,
+  },
+  Open: {
+    type: Sequelize.INTEGER,
     allowNull: false,
-    primaryKey: true
   },
   Name: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Picture: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   School: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Department: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Birth: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Gender: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Relationship: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Skill: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   SkillDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Interest: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   InterestDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Club: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   ClubDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Class: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   ClassDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Country: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   CountryDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Obsession: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   ObsessionDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Talent: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   TalentDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Wannatry: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   WannatryDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
-  accountUid: {
-    type: Sequelize.STRING,
-    references: {
-      model: Account,
-      key: 'Uid'
-    }
-  }
+
 }, {
  
   sequelize,
-  modelName: 'personaldata'
+  modelName: 'accountdata'
   // options
 });
 
@@ -200,12 +184,9 @@ Friend.init({
 
 });
 
-Account.hasMany(PersonalData); 
-PersonalData.belongsTo(Account);
-
 module.exports = {
     search : function(searchData1){
-      return Account.findOne({
+      return AccountData.findOne({
       attributes: ['Password'],
       where:{
         Email:searchData1,
@@ -214,24 +195,49 @@ module.exports = {
     },
     newAccount : function(newData1 , newData2){
         var ifreg = ''
-        return Account.upsert({
+        async () => {
+          var newacc =  AccountData.upsert({
             Uid : uuidv4(),
             Email : newData1,
             Password : newData2,
-          }).then(anotherTask => {
+            Open : 0,
+          }).then(()=>{
             console.log("success")
-            ifreg = 'success'
-            return ifreg
-          }).catch(error => {
+            PersonalData.sync({ force: false }).then(() => {
+              PersonalData.create({
+                Pid : uuidv4(),
+              });
+              }).then(personalData => {
+                personalData.setAccountD(newacc)
+                ifreg = 'success'
+                return ifreg
+              })
+            
+          })
+          .catch(error => {
             console.log("unsuccess")
-            ifreg = 'unseccess'
+            ifreg = 'unsuccess'
             return ifreg
           })
-        //return Promise.resolve(ifreg)
-        
-
+        }
+        return Promise.resolve(ifreg)
+    },
+    draw : function(checkAcc){
+      Padding.findOne({
+        attributes: ['F1id'],
+        where:{
+          F2id : checkAcc
+        }
+      })
+      return AccountData.findOne({
+        attributes: ['Email'],
+        order: sequelize.random(),
+        Email: {
+          [Op.notlike] : '%' + checkAcc
+        }
+      }) 
     }
-}
+};
 
 /*module.exports = {
     newAccount : function(newData1, newData2){

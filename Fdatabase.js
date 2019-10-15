@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const sequelize = new Sequelize( {
     dialect: 'sqlite',
-    storage: '/home/annie/Documents/nodepractice/Fcard/sqldev.db'
+    storage: '/home/annie/Documents/Fcard/Fcard/sqldev.db'
   });
 
   sequelize.authenticate()
@@ -17,6 +17,7 @@ const sequelize = new Sequelize( {
 
 const Model = Sequelize.Model;
 
+/*
 class Account extends Model {}
 Account.init({
   // attributes
@@ -32,125 +33,135 @@ Account.init({
   Password: {
     type: Sequelize.STRING,
     allowNull: false,
+  },
+  Open: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
   }
 }, {
  
   sequelize,
   modelName: 'account'
   // options
-});
+});*/
 
-class PersonalData extends Model {}
-PersonalData.init({
+class AccountData extends Model {}
+AccountData.init({
   // attributes
-  Pid: {
+  Uid: {
     type: Sequelize.STRING,
     allowNull: false,
     primaryKey: true
   },
-  Name: {
+  Email: {
     type: Sequelize.STRING,
     allowNull: false,
+  },
+  Password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  Open: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  Name: {
+    type: Sequelize.STRING,
+    allowNull: true,
   },
   Picture: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   School: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Department: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Birth: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Gender: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Relationship: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Skill: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   SkillDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Interest: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   InterestDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Club: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   ClubDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Class: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   ClassDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Country: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   CountryDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Obsession: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   ObsessionDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Talent: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   TalentDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   Wannatry: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   WannatryDescription: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
-  accountUid: {
-    type: Sequelize.STRING,
-    references: {
-      model: Account,
-      key: 'Uid'
-    }
-  }
+
 }, {
  
   sequelize,
-  modelName: 'personaldata'
+  modelName: 'accountdata'
   // options
 });
 
@@ -338,20 +349,21 @@ Notification.init({
 });*/
 
 
-Account.hasMany(PersonalData); // Will add userId to Task model
-PersonalData.belongsTo(Account);
 
-/*Account.sync({ force: true }).then(() => {
+
+AccountData.sync({ force: true }).then(() => {
   // Now the `users` table in the database corresponds to the model definition
-  return Account.create({
+  return AccountData.create({
     Uid: uuidv4(),
     Email: 'magician19960118@gmail.com',
-    Password : 'dodocute'
-
-  });
-}).then((account) => {
+    Password : 'dodocute',
+    Open : 0,
+  })
+  
+})
+/*.then((account) => {
   return PersonalData.sync({ force: true }).then(() => {
-    // Now the `users` table in the database corresponds to the model definition
+     Now the `users` table in the database corresponds to the model definition
     return PersonalData.create({
   
       Pid : uuidv4(),
@@ -383,19 +395,19 @@ PersonalData.belongsTo(Account);
   }).then(personalData => {
     personalData.setAccount(account)
   });
-})*/
+})
 
 
 
-/*Padding.sync({ force: true }).then(() => {
+Padding.sync({ force: true }).then(() => {
   return Padding.create({
     PDid: uuidv4(),
     F1id: '123',
     F2id: '456'
   });
-});*/
+});
 
-/*Friend.sync({ force: true }).then(() => {
+Friend.sync({ force: true }).then(() => {
   return Friend.create({
     Fid: uuidv4(),
     F1id: '',
