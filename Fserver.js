@@ -35,19 +35,23 @@ app.post('/loginSubmit', (req, res) => {
     req.on('end', () => {
       let reqObj = JSON.parse(bufferStr);
       var data1=reqObj.Email;
-      var data2=reqObj.password;
+      var data2=reqObj.Password;
+      console.log(data1)
+      console.log(data2)
       sql.search(data1)
       .then(data => {
-        if(data.length != 0)
+        //console.log(data)
+        if(data)
         {
-            var checkpassword = data.password
-            if(checkpassword = data2){
-                req.session.acc = data1
-                console.log('loginOK')
+          var checkpassword = data.Password
+          console.log(checkpassword)
+          if(checkpassword == data2){
+            req.session.acc = data1
+            console.log('loginOK')
             res.end('logSubOK')
-            }else{
-                res.end('Invalid password')
-            }  
+          }else{
+            res.end('Invalid password')
+          }  
         }else{
             res.end(`Unauthorized!`) 
         }

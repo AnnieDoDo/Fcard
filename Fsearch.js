@@ -195,32 +195,24 @@ module.exports = {
     },
     newAccount : function(newData1 , newData2){
         var ifreg = ''
-        async () => {
-          var newacc =  AccountData.upsert({
+
+         return AccountData.upsert({
             Uid : uuidv4(),
             Email : newData1,
             Password : newData2,
             Open : 0,
           }).then(()=>{
             console.log("success")
-            PersonalData.sync({ force: false }).then(() => {
-              PersonalData.create({
-                Pid : uuidv4(),
-              });
-              }).then(personalData => {
-                personalData.setAccountD(newacc)
-                ifreg = 'success'
-                return ifreg
-              })
-            
+            ifreg = 'success'
+            return ifreg
           })
           .catch(error => {
             console.log("unsuccess")
             ifreg = 'unsuccess'
             return ifreg
           })
-        }
-        return Promise.resolve(ifreg)
+        
+        //return Promise.resolve(ifreg)
     },
     draw : function(checkAcc){
       Padding.findOne({
