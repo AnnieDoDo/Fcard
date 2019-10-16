@@ -83,38 +83,36 @@ app.post('/registerSubmit', (req, res) => {
     });
 });
 
-app.get('/inviteSubmit', (req, res) => {
+app.get('/drawSubmit', (req, res) => {
   if(!req.session.acc){
-    res.end('inviteFail') 
+    res.end('drawFail') 
   }else{
     sql.ifdrew(req.session.acc)
     .then(data => {
       if(data)
       {
+        if(data.F1id==req.session.acc)
+        {
+          res.end('drawSubOK') 
+        }else if(data.F2id==req.session.acc){
+          res.end('drawSubOK') 
+        }else{
+          res.end('drawSubFail') 
+        }
         console.log(data.F1id)
         console.log(data.F2id)
-        sql.addFriend(data.F1id , data.F2id)
-        .then(FriendData => {
-          if(FriendData == 'addFriendsuccess')
-          {
-              res.end('invSubOK') 
-          }else{
-              res.end('invSubFail') 
-          }
-        })
       }else{
         sql.draw(req.session.acc)
-        .then(data => {
-          if(data)
+        .then(drawdata => {
+          if(drawdata)
           {
-            console.log(data.Email)
-            sql.addPair(req.session.acc,data.Email)
-            .then(drewdata => {
-              if(drewdata == 'addPairsuccess')
+            sql.addPair(req.session.acc,drawdata.Email)
+            .then(pairdata=>{
+              if(pairdata == 'addPairsuccess')
               {
-                res.end('invSubOK') 
+                res.end('drawOK') 
               }else{
-                res.end('invSubFail') 
+                res.end('drawFail') 
               }
             })
           }else{
@@ -123,17 +121,23 @@ app.get('/inviteSubmit', (req, res) => {
         })
       }
     })
+  }
+});
 
-    /*sql.draw(req.session.acc)
-    .then(data => {
-      if(data)
+app.get('/inviteSubmit', (req, res) => {
+  if(!req.session.acc){
+    res.end('inviteFail') 
+  }else{
+    console.log(data.Email)
+    sql.addPair(req.session.acc,data.Email)
+    .then(drewdata => {
+      if(drewdata == 'addPairsuccess')
       {
-        console.log(data.Email)
-        res.end('invSubOK')
+        res.end('invSubOK') 
       }else{
-          res.end(`inviteFail`) 
+        res.end('invSubFail') 
       }
-    })*/
+    })
   }
 });
 
