@@ -87,16 +87,53 @@ app.get('/inviteSubmit', (req, res) => {
   if(!req.session.acc){
     res.end('inviteFail') 
   }else{
-    sql.draw(req.session.acc)
+    sql.ifdrew(req.session.acc)
     .then(data => {
-      if(data.length != 0)
+      if(data)
+      {
+        console.log(data.F1id)
+        console.log(data.F2id)
+        sql.addFriend(data.F1id , data.F2id)
+        .then(FriendData => {
+          if(FriendData == 'addFriendsuccess')
+          {
+              res.end('invSubOK') 
+          }else{
+              res.end('invSubFail') 
+          }
+        })
+      }else{
+        sql.draw(req.session.acc)
+        .then(data => {
+          if(data)
+          {
+            console.log(data.Email)
+            sql.addPair(req.session.acc,data.Email)
+            .then(drewdata => {
+              if(drewdata == 'addPairsuccess')
+              {
+                res.end('invSubOK') 
+              }else{
+                res.end('invSubFail') 
+              }
+            })
+          }else{
+              res.end(`drawFail`) 
+          }
+        })
+      }
+    })
+
+    /*sql.draw(req.session.acc)
+    .then(data => {
+      if(data)
       {
         console.log(data.Email)
         res.end('invSubOK')
       }else{
           res.end(`inviteFail`) 
       }
-    })
+    })*/
   }
 });
 

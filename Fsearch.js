@@ -214,21 +214,68 @@ module.exports = {
         
         //return Promise.resolve(ifreg)
     },
-    draw : function(checkAcc){
-      Padding.findOne({
-        attributes: ['F1id'],
-        where:{
-          F2id : checkAcc
-        }
+    ifdrew : function(checkAcc){
+      return Padding.findOne({
+        attributes: ['F1id','F2id'],
+        [Op.or]: [
+          {
+            F1id: {
+              [Op.like]: '%' + checkAcc
+            }
+          },
+          {
+            F2id: {
+              [Op.like]: '%' + checkAcc
+            }
+          }
+        ]
       })
+    },
+    draw : function(checkAcc){
       return AccountData.findOne({
         attributes: ['Email'],
         order: sequelize.random(),
         Email: {
-          [Op.notlike] : '%' + checkAcc
+          [Op.notlike] : checkAcc
         }
-      }) 
-    }
+      })
+    },
+    addPair : function(acc1,acc2){
+      ifreg = ''
+      return Padding.upsert({
+          PDid : uuidv4(),
+          F1id : acc1,
+          F2id:  acc2,
+        }).then(()=>{
+          console.log("addPairsuccess")
+          ifreg = 'addPairsuccess'
+          return ifreg
+        })
+        .catch(error => {
+          console.log("addPairunsuccess")
+          ifreg = 'addPairunsuccess'
+          return ifreg
+        })
+      },
+      addFriend : function(acc1,acc2){
+        ifreg = ''
+        return Friend.upsert({
+            Fid : uuidv4(),
+            F1id : acc1,
+            F2id:  acc2,
+          }).then(()=>{
+            console.log("addFriendsuccess")
+            ifreg = 'addFriendsuccess'
+            return ifreg
+          })
+          .catch(error => {
+            console.log("addFriendunsuccess")
+            ifreg = 'addFriendunsuccess'
+            return ifreg
+          })
+        }
+
+
 };
 
 /*module.exports = {
