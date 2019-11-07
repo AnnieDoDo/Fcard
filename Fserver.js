@@ -1,14 +1,14 @@
 const express = require('express');
 const pa = require('path')
-var session = require('express-session')
-var redis = require("redis");
-var RedisStore = require('connect-redis')(session);
-
-var bodyParser  = require('body-parser');
-var expressAccessToken = require('express-access-token');
-var client = redis.createClient();
-var sql = require('./Fsearch');
-var bcrypt = require('bcrypt');
+const session = require('express-session')
+const redis = require("redis");
+const RedisStore = require('connect-redis')(session);
+const cors = require('cors')
+const bodyParser  = require('body-parser');
+const expressAccessToken = require('express-access-token');
+const client = redis.createClient();
+const sql = require('./Fsearch');
+const bcrypt = require('bcrypt');
 
 const PORT = 3500;
 const HOST = '127.0.0.1';
@@ -26,7 +26,7 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/loginSubmit', (req, res) => {
+app.post('/loginSubmit', cors(), (req, res) => {
     let bufferStr = "";
     console.log(req.body)
     req.on('data', data => {
@@ -51,15 +51,17 @@ app.post('/loginSubmit', (req, res) => {
             res.end('logSubOK')
           }else{
             res.end('Invalid password')
+            console.log('Invalid password')
           }  
         }else{
             res.end(`Unauthorized!`) 
+            console.log('Unauthorized!')
         }
       })
     });
 });
 
-app.post('/registerSubmit', (req, res) => {
+app.post('/registerSubmit',cors(), (req, res) => {
     let bufferStr = "";
     console.log(req.body)
     req.on('data', data => {
@@ -68,7 +70,7 @@ app.post('/registerSubmit', (req, res) => {
     req.on('end', () => {
       let reqObj = JSON.parse(bufferStr);
       var data1=reqObj.Email;
-      var data2=reqObj.password;
+      var data2=reqObj.Password;
       //console.log(data1)
       //console.log(data2)
       sql.newAccount(data1 , data2)
@@ -124,7 +126,11 @@ app.get('/drawSubmit', (req, res) => {
   }
 });
 
-app.get('/inviteSubmit', (req, res) => {
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.end('logoutOK');
+});
+/*app.get('/inviteSubmit', (req, res) => {
   if(!req.session.acc){
     res.end('inviteFail') 
   }else{
@@ -139,7 +145,7 @@ app.get('/inviteSubmit', (req, res) => {
       }
     })
   }
-});
+});*/
 
 
 
