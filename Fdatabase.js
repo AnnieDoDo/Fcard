@@ -61,6 +61,10 @@ AccountData.init({
     type: Sequelize.STRING,
     allowNull: false,
   },
+  Book: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+  },
   Open: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -357,6 +361,7 @@ AccountData.sync({ force: true }).then(() => {
     Uid: uuidv4(),
     Email: 'magician19960118@gmail.com',
     Password : 'dodocute',
+    Book: 0,
     Open : 0,
   })
   

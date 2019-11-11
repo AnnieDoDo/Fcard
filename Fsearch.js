@@ -34,6 +34,10 @@ AccountData.init({
     type: Sequelize.STRING,
     allowNull: false,
   },
+  Book: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+  },
   Open: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -200,6 +204,7 @@ module.exports = {
             Uid : uuidv4(),
             Email : newData1,
             Password : newData2,
+            Book: 0,
             Open : 0,
           }).then(()=>{
             console.log("success")
@@ -217,28 +222,42 @@ module.exports = {
     ifdrew : function(checkAcc){
       return Padding.findOne({
         attributes: ['F1id','F2id'],
-        [Op.or]: [
+        where: {[Op.or]: [
           {
             F1id: {
-              [Op.like]: '%' + checkAcc
+              [Op.like]: checkAcc
             }
           },
           {
             F2id: {
-              [Op.like]: '%' + checkAcc
+              [Op.like]: checkAcc
             }
           }
-        ]
+        ]},
+        raw: true
       })
     },
-    draw : function(checkAcc){
+    draw : function(){
       return AccountData.findOne({
         attributes: ['Email'],
         order: sequelize.random(),
-        Email: {
-          [Op.notlike] : checkAcc
-        }
+        where:{ Book: {
+          [Op.ne] : 1
+        }},
+        raw: true
       })
+    },
+    withoutDrew : function(checkAcc){
+      return AccountData.update(
+        { Book: 1 },
+        { where: { Email: checkAcc } }
+        )
+        .then(result =>
+          console.log(result)
+        )
+        .catch(err =>
+          console.log(err)
+        )
     },
     addPair : function(acc1,acc2){
       ifreg = ''
@@ -246,6 +265,7 @@ module.exports = {
           PDid : uuidv4(),
           F1id : acc1,
           F2id:  acc2,
+          raw: true
         }).then(()=>{
           console.log("addPairsuccess")
           ifreg = 'addPairsuccess'

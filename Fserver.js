@@ -19,16 +19,25 @@ app.use(session({
     secret: 'dodo',
     saveUninitialized: false,
     resave: false,
-    cookie: {},
+    cookie: {
+      /*todo
+      secure: true,
+      SameSite: 'none'
+      */
+    },
     
   }));
 
+/*app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.header('Access-Control-Allow-Credentials');
+  next();
+});  */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/loginSubmit', cors(), (req, res) => {
+app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
     let bufferStr = "";
-    console.log(req.body)
     req.on('data', data => {
       bufferStr += data.toString()
     })
@@ -36,8 +45,8 @@ app.post('/loginSubmit', cors(), (req, res) => {
       let reqObj = JSON.parse(bufferStr);
       var data1=reqObj.Email;
       var data2=reqObj.Password;
-      console.log(data1)
-      console.log(data2)
+      //console.log(data1)
+      //console.log(data2)
       sql.search(data1)
       .then(data => {
         //console.log(data)
@@ -47,7 +56,6 @@ app.post('/loginSubmit', cors(), (req, res) => {
           console.log(checkpassword)
           if(checkpassword == data2){
             req.session.acc = data1
-            console.log('loginOK')
             res.end('logSubOK')
           }else{
             res.end('Invalid password')
@@ -85,41 +93,45 @@ app.post('/registerSubmit',cors(), (req, res) => {
     });
 });
 
-app.get('/drawSubmit', (req, res) => {
+app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
   if(!req.session.acc){
-    res.end('drawFail') 
+    res.end('You have to login first') 
   }else{
+    console.log("draw here")
+    console.log(req.session.acc)
     sql.ifdrew(req.session.acc)
     .then(data => {
+      console.log(data)
       if(data)
       {
-        if(data.F1id==req.session.acc)
-        {
-          res.end('drawSubOK') 
-        }else if(data.F2id==req.session.acc){
-          res.end('drawSubOK') 
-        }else{
-          res.end('drawSubFail') 
-        }
+        console.log("ifdrew")
         console.log(data.F1id)
         console.log(data.F2id)
+        if((data.F1id==req.session.acc) || (data.F2id==req.session.acc))
+        {
+          res.end('drawSubOK') 
+        }
+        //console.log(data.F1id)
+        //console.log(data.F2id)
       }else{
-        sql.draw(req.session.acc)
-        .then(drawdata => {
-          if(drawdata)
-          {
-            sql.addPair(req.session.acc,drawdata.Email)
-            .then(pairdata=>{
-              if(pairdata == 'addPairsuccess')
-              {
-                res.end('drawOK') 
+        console.log("withoutDrew")
+        sql.withoutDrew(req.session.acc)
+        .then(()=> {
+          console.log("checkbook")
+          sql.draw()
+          .then(drawemail=> {
+            console.log(drawemail)
+            sql.addPair(req.session.acc,drawemail.Email)
+            .then(afteradd=> {
+              console.log(afteradd)
+              if(afteradd==="addPairsuccess"){
+                sql.withoutDrew(drawemail.Email)
+                res.end("drawSubOK")
               }else{
-                res.end('drawFail') 
+                res.end("drawFail")
               }
             })
-          }else{
-              res.end(`drawFail`) 
-          }
+          })
         })
       }
     })
