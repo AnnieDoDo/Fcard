@@ -28,11 +28,6 @@ app.use(session({
     
   }));
 
-/*app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-  res.header('Access-Control-Allow-Credentials');
-  next();
-});  */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -111,8 +106,7 @@ app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:8080'}),
         {
           res.end('drawSubOK') 
         }
-        //console.log(data.F1id)
-        //console.log(data.F2id)
+
       }else{
         console.log("withoutDrew")
         sql.withoutDrew(req.session.acc)
@@ -138,8 +132,54 @@ app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:8080'}),
   }
 });
 
-app.get('/logout', (req, res) => {
+app.get('/getDrewData',cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
+  if(!req.session.acc){
+    res.end('You have to login first') 
+  }else{
+    sql.ifdrew(req.session.acc)
+    .then(data =>{
+      if(data.F1id==req.session.acc)
+      {
+        sql.PersonalData(data.F2id)
+        .then(personaldata=> {
+          console.log(personaldata)
+          res.send(personaldata) 
+        })
+      }else if(data.F2id==req.session.acc)
+      {
+        sql.PersonalData(data.F1id)
+        .then(personaldata=> {
+          console.log(personaldata)
+          res.send(personaldata) 
+        })
+      }else{
+        res.end("getFail")
+      }
+    })
+  }
+
+});
+
+/*if(data.F1id==req.session.acc)
+{
+  sql.PersonalData(data.F2id)
+  .then(personaldata=> {
+    console.log(personaldata)
+    res.send(personaldata) 
+  })
+
+}else if(data.F2id==req.session.acc)
+{
+  sql.PersonalData(data.F1id)
+  .then(personaldata=> {
+    console.log(personaldata)
+    res.send(personaldata) 
+  })
+}
+*/
+app.get('/logout', cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
   req.session.destroy();
+  console.log("logout")
   res.end('logoutOK');
 });
 /*app.get('/inviteSubmit', (req, res) => {

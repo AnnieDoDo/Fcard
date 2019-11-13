@@ -197,6 +197,14 @@ module.exports = {
         }
       })   
     },
+    checkIfAccountExist : function(checkAcc){
+      return AccountData.findOne({
+        attributes:['Email'],
+        where:{
+          Email: checkAcc,
+        }
+      })
+    },
     newAccount : function(newData1 , newData2){
         var ifreg = ''
 
@@ -276,6 +284,15 @@ module.exports = {
           ifreg = 'addPairunsuccess'
           return ifreg
         })
+      },
+      PersonalData : function(searchData){
+        return AccountData.findOne({
+        attributes: ['Gender','School','Department','SkillDescription','ClubDescription','ClassDescription','CountryDescription','ObsessionDescription','TalentDescription','WannatryDescription'],
+        where:{
+          Email:searchData,
+        },
+        raw: true
+        })   
       },
       addFriend : function(acc1,acc2){
         ifreg = ''
