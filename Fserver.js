@@ -63,8 +63,8 @@ app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:8080'
       })
     });
 });
-//,cors({credentials: true,origin: 'http://localhost:8080'})
-app.post('/registerSubmit', (req, res) => {
+
+app.post('/registerSubmit',cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
     let bufferStr = "";
     console.log(req.body)
     req.on('data', data => {
