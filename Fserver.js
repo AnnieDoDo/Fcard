@@ -63,8 +63,8 @@ app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:8080'
       })
     });
 });
-
-app.post('/registerSubmit',cors(), (req, res) => {
+//,cors({credentials: true,origin: 'http://localhost:8080'})
+app.post('/registerSubmit', (req, res) => {
     let bufferStr = "";
     console.log(req.body)
     req.on('data', data => {
@@ -76,13 +76,21 @@ app.post('/registerSubmit',cors(), (req, res) => {
       var data2=reqObj.Password;
       //console.log(data1)
       //console.log(data2)
-      sql.newAccount(data1 , data2)
-      .then(data => {
-        if(data == 'success')
-        {
-            res.end('regSubOK') 
+      sql.checkIfAccountExist(data1)
+      .then(checkdata =>{
+        if(checkdata){
+          console.log("You have registered before.")
+          res.end("You have registered before.")
         }else{
-            res.end('registerFail') 
+          sql.newAccount(data1 , data2)
+          .then(data => {
+            if(data == 'success')
+            {
+                res.end('regSubOK') 
+            }else{
+                res.end('registerFail') 
+            }
+          })
         }
       })
     });

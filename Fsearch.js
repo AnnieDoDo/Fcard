@@ -202,7 +202,8 @@ module.exports = {
         attributes:['Email'],
         where:{
           Email: checkAcc,
-        }
+        },
+        raw: true
       })
     },
     newAccount : function(newData1 , newData2){
