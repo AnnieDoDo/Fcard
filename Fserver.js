@@ -28,6 +28,7 @@ app.use(session({
     
   }));
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -215,6 +216,6 @@ app.get('/logout', cors({credentials: true,origin: 'http://localhost:3500'}), (r
 
 
 
-app.listen(PORT, HOST, () => {
-    console.log(`Running on http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Running on ${PORT}`);
   });
