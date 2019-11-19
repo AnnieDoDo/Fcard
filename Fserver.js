@@ -31,7 +31,13 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
+app.use('/', express.static(pa.join('/home/annie/Documents/Fcard-FrontEnd/docs')))
+
+app.get(['/', '/*'],(req, res) => {
+  res.sendFile('/home/annie/Documents/Fcard-FrontEnd/docs/index.html'); 
+ });
+
+app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
     let bufferStr = "";
     req.on('data', data => {
       bufferStr += data.toString()
@@ -64,7 +70,7 @@ app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:8080'
     });
 });
 
-app.post('/registerSubmit',cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
+app.post('/registerSubmit',cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
     let bufferStr = "";
     console.log(req.body)
     req.on('data', data => {
@@ -96,7 +102,7 @@ app.post('/registerSubmit',cors({credentials: true,origin: 'http://localhost:808
     });
 });
 
-app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
+app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
   if(!req.session.acc){
     res.end('You have to login first') 
   }else{
@@ -140,7 +146,7 @@ app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:8080'}),
   }
 });
 
-app.get('/getDrewData',cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
+app.get('/getDrewData',cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
   if(!req.session.acc){
     res.end('You have to login first') 
   }else{
@@ -185,7 +191,7 @@ app.get('/getDrewData',cors({credentials: true,origin: 'http://localhost:8080'})
   })
 }
 */
-app.get('/logout', cors({credentials: true,origin: 'http://localhost:8080'}), (req, res) => {
+app.get('/logout', cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
   req.session.destroy();
   console.log("logout")
   res.end('logoutOK');
