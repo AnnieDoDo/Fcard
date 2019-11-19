@@ -32,7 +32,7 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-//app.use('/', express.static(pa.join('/home/annie/Documents/Fcard-FrontEnd/docs')))
+app.use('/', express.static(pa.join('/home/annie/Documents/Fcard-FrontEnd/docs')))
 
 app.get(['/', '/*'],(req, res) => {
   res.sendFile('/home/annie/Documents/Fcard-FrontEnd/docs/index.html'); 
