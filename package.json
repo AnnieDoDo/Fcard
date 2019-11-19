@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnnieDoDo/Fcard.git"
+  },
+  "author": "AnnieYoung",
+  "bugs": {
+    "url": "https://github.com/AnnieDoDo/Fcard/issues"
+  },
+  "homepage": "https://github.com/AnnieDoDo/Fcard#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "connect-redis": "^4.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-access-token": "^1.0.3",
+    "express-session": "^1.17.0",
+    "path": "^0.12.7",
+    "redis": "^2.8.0",
+    "sequelize": "^5.21.2",
+    "uuidv4": "^6.0.0"
+  }
+}
