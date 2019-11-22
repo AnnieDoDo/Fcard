@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/', express.static(pa.join('/home/annie/Documents/Fcard-FrontEnd/docs')))
 
-app.get(['/', '/*'],(req, res) => {
+app.get('/',(req, res) => {
   res.sendFile('/home/annie/Documents/Fcard-FrontEnd/docs/index.html'); 
  });
 
@@ -175,46 +175,11 @@ app.get('/getDrewData',cors({credentials: true,origin: 'http://localhost:3500'})
 
 });
 
-/*if(data.F1id==req.session.acc)
-{
-  sql.PersonalData(data.F2id)
-  .then(personaldata=> {
-    console.log(personaldata)
-    res.send(personaldata) 
-  })
-
-}else if(data.F2id==req.session.acc)
-{
-  sql.PersonalData(data.F1id)
-  .then(personaldata=> {
-    console.log(personaldata)
-    res.send(personaldata) 
-  })
-}
-*/
 app.get('/logout', cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
   req.session.destroy();
   console.log("logout")
   res.end('logoutOK');
 });
-/*app.get('/inviteSubmit', (req, res) => {
-  if(!req.session.acc){
-    res.end('inviteFail') 
-  }else{
-    console.log(data.Email)
-    sql.addPair(req.session.acc,data.Email)
-    .then(drewdata => {
-      if(drewdata == 'addPairsuccess')
-      {
-        res.end('invSubOK') 
-      }else{
-        res.end('invSubFail') 
-      }
-    })
-  }
-});*/
-
-
 
 app.listen(PORT, () => {
     console.log(`Running on ${PORT}`);
