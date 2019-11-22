@@ -1,8 +1,10 @@
 # Fcard Backend
 
-> This is a project for rebuilding the backend of Dcard.
-*  Node.js with Express.js framework
+> This is a project for rebuilding the back-end of Dcard.
 
+* Build back-end server from Node.js with Express.js framework
+* Manipulate Database through Sequelize which is a Node.js ORM
+* 
 
 
 
