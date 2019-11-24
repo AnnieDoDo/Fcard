@@ -4,6 +4,7 @@
 
 * Build back-end server from Node.js with Express.js framework
 * Manipulate Database through Sequelize which is a Node.js ORM
+* Gernerate session through Redis to mangage authentication of users
 * Design Database schema
 * Design API and test the interaction of request and response by Postman
 
