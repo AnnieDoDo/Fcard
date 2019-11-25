@@ -38,7 +38,7 @@ app.get('/',(req, res) => {
   res.sendFile('/home/annie/Documents/Fcard-FrontEnd/docs/index.html'); 
  });
 
-app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
+app.post('/loginSubmit', cors({credentials: true,origin: 'https://localhost:3500'}), (req, res) => {
     let bufferStr = "";
     req.on('data', data => {
       bufferStr += data.toString()
@@ -71,7 +71,7 @@ app.post('/loginSubmit', cors({credentials: true,origin: 'http://localhost:3500'
     });
 });
 
-app.post('/registerSubmit',cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
+app.post('/registerSubmit',cors({credentials: true,origin: 'https://localhost:3500'}), (req, res) => {
     let bufferStr = "";
     console.log(req.body)
     req.on('data', data => {
@@ -103,7 +103,7 @@ app.post('/registerSubmit',cors({credentials: true,origin: 'http://localhost:350
     });
 });
 
-app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
+app.get('/drawSubmit',cors({credentials: true,origin: 'https://localhost:3500'}), (req, res) => {
   if(!req.session.acc){
     res.end('You have to login first') 
   }else{
@@ -147,7 +147,7 @@ app.get('/drawSubmit',cors({credentials: true,origin: 'http://localhost:3500'}),
   }
 });
 
-app.get('/getDrewData',cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
+app.get('/getDrewData',cors({credentials: true,origin: 'https://localhost:3500'}), (req, res) => {
   if(!req.session.acc){
     res.end('You have to login first') 
   }else{
@@ -175,7 +175,7 @@ app.get('/getDrewData',cors({credentials: true,origin: 'http://localhost:3500'})
 
 });
 
-app.get('/logout', cors({credentials: true,origin: 'http://localhost:3500'}), (req, res) => {
+app.get('/logout', cors({credentials: true,origin: 'https://localhost:3500'}), (req, res) => {
   req.session.destroy();
   console.log("logout")
   res.end('logoutOK');
