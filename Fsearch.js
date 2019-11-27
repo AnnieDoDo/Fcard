@@ -5,7 +5,7 @@ const Op = Sequelize.Op;
 
 const sequelize = new Sequelize( {
     dialect: 'sqlite',
-    storage: '/home/annie/Documents/Fcard/Fcard/sqldev.db'
+    storage: './sqldev.db'
   });
 
   sequelize.authenticate()
