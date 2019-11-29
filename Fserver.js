@@ -15,7 +15,7 @@ const HOST = 'localhost';
 const app = express();
 
 app.use(session({
-    store: new RedisStore({ host: 'localhost', port: 6379, client: client}),
+    store: new RedisStore({ host: 'localhost', port: 3000, client: client}),
     secret: 'dodo',
     saveUninitialized: false,
     resave: false,
