@@ -6,7 +6,7 @@ const RedisStore = require('connect-redis')(session);
 const cors = require('cors')
 const bodyParser  = require('body-parser');
 const expressAccessToken = require('express-access-token');
-const client = redis.createClient(host: 'redis');
+const client = redis.createClient();
 const sql = require('./Fsearch');
 const bcrypt = require('bcrypt');
 
