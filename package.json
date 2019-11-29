@@ -1,6 +1,14 @@
 {
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "aptget":"apt-get update",
+    "systemd":"apt-get install --reinstall systemd",
+    "redis":"apt-get install redis-server",
+    "daemonlize":"redis-server --daemonize yes",
+    "sqlite":"apt-get install sqlite3",
+    "serverjs":"node Fserver.js",
+    "serial":"npm aptget && npm ststemd && npm redis && npm daemonlize && npm sqlite && npm serverjs",
+    "start": "npm serial"
   },
   "repository": {
     "type": "git",
