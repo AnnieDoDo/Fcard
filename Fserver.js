@@ -10,12 +10,12 @@ const client = redis.createClient();
 const sql = require('./Fsearch');
 const bcrypt = require('bcrypt');
 
-const PORT = 3500;
-const HOST = '127.0.0.1';
+const PORT = 8080;
+const HOST = 'localhost';
 const app = express();
 
 app.use(session({
-    store: new RedisStore({ host: 'localhost', port: 3000, client: client}),
+    store: new RedisStore({ host: 'localhost', port: 6379, client: client}),
     secret: 'dodo',
     saveUninitialized: false,
     resave: false,
@@ -38,7 +38,7 @@ app.get('/',(req, res) => {
   res.sendFile('/home/annie/Documents/Fcard-FrontEnd/docs/index.html'); 
  });*/
 
-app.post('/loginSubmit', cors({credentials: true,origin: 'https://localhost'}), (req, res) => {
+app.post('/loginSubmit', cors({credentials: true,origin: 'https://localhost:8080'}), (req, res) => {
     let bufferStr = "";
     req.on('data', data => {
       bufferStr += data.toString()
@@ -71,7 +71,7 @@ app.post('/loginSubmit', cors({credentials: true,origin: 'https://localhost'}), 
     });
 });
 
-app.post('/registerSubmit',cors({credentials: true,origin: 'https://localhost'}), (req, res) => {
+app.post('/registerSubmit',cors({credentials: true,origin: 'https://localhost:8080'}), (req, res) => {
     let bufferStr = "";
     console.log(req.body)
     req.on('data', data => {
@@ -103,7 +103,7 @@ app.post('/registerSubmit',cors({credentials: true,origin: 'https://localhost'})
     });
 });
 
-app.get('/drawSubmit',cors({credentials: true,origin: 'https://localhost'}), (req, res) => {
+app.get('/drawSubmit',cors({credentials: true,origin: 'https://localhost:8080'}), (req, res) => {
   if(!req.session.acc){
     res.end('You have to login first') 
   }else{
@@ -147,7 +147,7 @@ app.get('/drawSubmit',cors({credentials: true,origin: 'https://localhost'}), (re
   }
 });
 
-app.get('/getDrewData',cors({credentials: true,origin: 'https://localhost'}), (req, res) => {
+app.get('/getDrewData',cors({credentials: true,origin: 'https://localhost:8080'}), (req, res) => {
   if(!req.session.acc){
     res.end('You have to login first') 
   }else{
@@ -175,7 +175,7 @@ app.get('/getDrewData',cors({credentials: true,origin: 'https://localhost'}), (r
 
 });
 
-app.get('/logout', cors({credentials: true,origin: 'https://localhost'}), (req, res) => {
+app.get('/logout', cors({credentials: true,origin: 'https://localhost:8080'}), (req, res) => {
   req.session.destroy();
   console.log("logout")
   res.end('logoutOK');
