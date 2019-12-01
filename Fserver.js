@@ -15,7 +15,7 @@ const sql = require('./Fsearch');
 const bcrypt = require('bcrypt');
 
 
-const PORT = 443;
+const PORT = 3500;
 const HOST = 'localhost';
 const app = express();
 
