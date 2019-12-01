@@ -6,16 +6,21 @@ const RedisStore = require('connect-redis')(session);
 const cors = require('cors')
 const bodyParser  = require('body-parser');
 const expressAccessToken = require('express-access-token');
-const client = redis.createClient();
+const nconf = require('nconf');
+nconf.argv().env().file('key.json');
+
+const client = redis.createClient()
+.on('error', err => console.error('ERR:REDIS:', err));
 const sql = require('./Fsearch');
 const bcrypt = require('bcrypt');
 
-const PORT = 8080;
+
+const PORT = 443;
 const HOST = 'localhost';
 const app = express();
 
 app.use(session({
-    store: new RedisStore({ host: 'localhost', port: 6379, client: client}),
+  store: new RedisStore({ host: 'localhost', port: 3000, client: client}),
     secret: 'dodo',
     saveUninitialized: false,
     resave: false,
