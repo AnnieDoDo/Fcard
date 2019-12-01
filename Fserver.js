@@ -9,25 +9,18 @@ const expressAccessToken = require('express-access-token');
 const nconf = require('nconf');
 nconf.argv().env().file('key.json');
 
-const client = redis.createClient(
-  nconf.get('redisPort') || '6379',
-  nconf.get('redisHost') || '127.0.0.1',
-  {
-    auth_pass: nconf.get('redisKey'),
-    return_buffers: true,
-  }
-)
+const client = redis.createClient()
 .on('error', err => console.error('ERR:REDIS:', err));
 const sql = require('./Fsearch');
 const bcrypt = require('bcrypt');
 
 
-const PORT = 8081;
+const PORT = 443;
 const HOST = 'localhost';
 const app = express();
 
 app.use(session({
-    store: new RedisStore({client}),
+  store: new RedisStore({ host: 'localhost', port: 3000, client: client}),
     secret: 'dodo',
     saveUninitialized: false,
     resave: false,
