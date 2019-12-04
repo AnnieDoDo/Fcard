@@ -9,8 +9,11 @@
 * Design API and test the interaction of request and response by Postman
 
 [Prototype and Function](https://github.com/AnnieDoDo/Fcard/edit/master/README.md#Prototype-and-Function)
+
 [Sitemap](https://github.com/AnnieDoDo/Fcard/edit/master/README.md#Sitemap)
-[Database Schema](https://github.com/AnnieDoDo/Fcard/edit/master/README.md#Database Schema)
+
+[Database Schema](https://github.com/AnnieDoDo/Fcard/edit/master/README.md#Database-Schema)
+
 [API](https://github.com/AnnieDoDo/Fcard/edit/master/README.md#API)
 
 
