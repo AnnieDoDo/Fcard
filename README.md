@@ -34,8 +34,9 @@
 > $ node Fserver.js
 
 If you test Fcard Back-end on Postman, try settings below : 
-![Body](https://i.imgur.com/frUCH3pundefined.png)                      
-![Headers](https://i.imgur.com/D4gmTK7undefined.png)  
+![](https://i.imgur.com/D4gmTK7.png)
+![](https://i.imgur.com/frUCH3p.png)  
+
 
 ## Prototype and Function
 1. Register & Login
