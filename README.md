@@ -21,17 +21,17 @@
 
 ## Install
 
-> $ git clone https://github.com/AnnieDoDo/Fcard.git
+    $ git clone https://github.com/AnnieDoDo/Fcard.git
 
-> $ npm install
+    $ npm install
 
-> $ apt-get install redis-server
+    $ apt-get install redis-server
 
-> $ redis-server --daemonize yes
+    $ redis-server --daemonize yes
 
-> $ apt-get install sqlite3
+    $ apt-get install sqlite3
 
-> $ node Fserver.js
+    $ node Fserver.js
 
 If you test Fcard Back-end on Postman, try settings below : 
 ![](https://i.imgur.com/D4gmTK7.png)
