@@ -7,6 +7,9 @@
 * Gernerate session through Redis to mangage authentication of users
 * Design Database schema
 * Design API and test the interaction of request and response by Postman
+#
+
+[Install](https://github.com/AnnieDoDo/Fcard#Install)
 
 [Prototype and Function](https://github.com/AnnieDoDo/Fcard#Prototype-and-Function)
 
@@ -16,6 +19,23 @@
 
 [API](https://github.com/AnnieDoDo/Fcard#API)
 
+## Install
+
+> $ git clone https://github.com/AnnieDoDo/Fcard.git
+
+> $ npm install
+
+> $ apt-get install redis-server
+
+> $ redis-server --daemonize yes
+
+> $ apt-get install sqlite3
+
+> $ node Fserver.js
+
+If you test Fcard Back-end on Postman, try settings below : 
+![Body](https://i.imgur.com/frUCH3pundefined.png)                      
+![Headers](https://i.imgur.com/D4gmTK7undefined.png)  
 
 ## Prototype and Function
 1. Register & Login
@@ -36,7 +56,7 @@
 3. Articles and searching them
 * - [ ] Classification of articles
 * - [ ] Write, Post, Edit, and Delete my articles
-* - [ ] Write, Edit, and Delete my comments
+* - [ ] Write, Post, Edit, and Delete my comments
 * - [ ] Tag others in articles and comments
 * - [ ] Press like to articles and comments
 * - [ ] Report articles and comments
