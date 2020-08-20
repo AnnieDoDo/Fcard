@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/AnnieDoDo/Fcard#readme",
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "connect-redis": "^4.0.3",
     "cors": "^2.8.5",
